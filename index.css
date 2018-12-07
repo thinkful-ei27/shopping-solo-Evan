@@ -9,6 +9,14 @@
   button, input[type="text"] {
     padding: 5px;
   }
+
+  .search {
+    display: inline-block;
+  }
+
+  input[type="checkbox"] {
+      display: inline-block;
+  }
   
   button:hover {
     cursor: pointer;
