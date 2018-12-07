@@ -82,7 +82,9 @@ function handleItemCheckClicked() {
   });
 }
 
-
+function deleteHandler (itemIndex) {
+  STORE.splice(itemIndex, 1);
+} 
 
 
 function handleDeleteItemClicked() {
@@ -91,6 +93,8 @@ function handleDeleteItemClicked() {
   console.log('`handleDeleteItemClicked` ran');
   $('.js-shopping-list').on('click', '.js-item-delete', event => {
     const itemIndex = getItemIndexFromElement(event.currentTarget);
+    deleteHandler(itemIndex);
+    renderShoppingList();
 
   });
 }
