@@ -14,7 +14,8 @@ const STORE = {
     { name: 'bread', checked: false }
   ],
   showAll: false,
-  search: ''
+  search: '',
+  edited: ''
 
 };
 
@@ -31,6 +32,10 @@ function generateItemElement(item, itemIndex, template) {
         <button class="shopping-item-delete js-item-delete">
             <span class="button-label">delete</span>
         </button>
+       <input type="text" name="edit-list-entry" class="js-edit-list-entry" placeholder="edit item"></input>
+       <button class="shopping-item-edit js-item-edit">
+            <span class="button-label">edit</span>
+        </button>
       </div>
     </li>`;
 }
@@ -43,7 +48,10 @@ function generateShoppingItemsString(shoppingList) {
     list = list.filter(item => !item.checked);
   } else if (STORE.search) {
     list = list.filter(item => item.name.includes(STORE.search));
+  } else if (STORE.edited) {
+    STORE.list.name = STORE.edited;
   }
+
   const items = list.map((item, index) => generateItemElement(item, index));
 
 
@@ -134,7 +142,21 @@ function searchByNameHandler() {
 
     return renderShoppingList(); 
   });
+}
 
+function editNameHandler () {
+  $('.js-shopping-list').on('click', '.js-item-edit', (event) =>{
+    //take the input val and set it to the name
+    const edit = $('.js-edit-list-entry').val();
+    console.log('`editNameHanler`running', edit);
+    $('.js-edit-list-entry').val('');
+
+
+    STORE.list.name = edit;
+    console.log(`edited to ${STORE.list.name}`);
+    console.log(`STORE.list.name has been edited to ${edit}`);
+    
+  });
 }
 
 
@@ -149,6 +171,7 @@ function handleShoppingList() {
   handleDeleteItemClicked();
   checkBoxHandler();
   searchByNameHandler();
+  editNameHandler();
 }
 
 // when the page loads, call `handleShoppingList`
