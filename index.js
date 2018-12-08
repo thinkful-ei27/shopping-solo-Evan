@@ -38,13 +38,11 @@ function generateItemElement(item, itemIndex, template) {
 
 function generateShoppingItemsString(shoppingList) {
 
-  let list = shoppingList.list  
-  if (!STORE.showAll) {
+  let list = shoppingList.list;  
+  if (STORE.showAll) {
     list = list.filter(item => !item.checked);
-  }
-
-  if (STORE.search) {
-   list = list.filter(item => item.name.includes(STORE.search));
+  } else if (STORE.search) {
+    list = list.filter(item => item.name.includes(STORE.search));
   }
   const items = list.map((item, index) => generateItemElement(item, index));
 
