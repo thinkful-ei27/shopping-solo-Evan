@@ -14,9 +14,7 @@ const STORE = {
     { name: 'bread', checked: false }
   ],
   showAll: false,
-  search: '',
-  edited: ''
-
+  search: ''
 };
 
 
@@ -48,9 +46,7 @@ function generateShoppingItemsString(shoppingList) {
     list = list.filter(item => !item.checked);
   } else if (STORE.search) {
     list = list.filter(item => item.name.includes(STORE.search));
-  } else if (STORE.edited) {
-    STORE.list.name = STORE.edited;
-  }
+  } 
 
   const items = list.map((item, index) => generateItemElement(item, index));
 
@@ -134,27 +130,31 @@ function checkBoxHandler() {
 function searchByNameHandler() {
  
   $('.search').on('click', function (event) {
-    event.preventDefault();
+    
     const searchItem = $('.js-search-list-entry').val();
     STORE.search = searchItem;
 
     $('.js-search-list-entry').val('');
 
-    return renderShoppingList(); 
+    renderShoppingList(); 
   });
 }
 
+
+
 function editNameHandler () {
-  $('.js-shopping-list').on('click', '.js-item-edit', (event) =>{
+  $('.js-shopping-list').on('click', '.js-item-edit', (event) => {
     //take the input val and set it to the name
-    const edit = $('.js-edit-list-entry').val();
-    console.log('`editNameHanler`running', edit);
+    //somehow get the new val to render 
+    const editInput = $('.js-edit-list-entry').val();
+    
+    console.log('`editNameHandler`running', editInput);
     $('.js-edit-list-entry').val('');
-
-
-    STORE.list.name = edit;
-    console.log(`edited to ${STORE.list.name}`);
-    console.log(`STORE.list.name has been edited to ${edit}`);
+    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    STORE.list[itemIndex].name = editInput;
+    renderShoppingList();
+    console.log(`STORE.list.name edited to ${STORE.list.name}`);
+    
     
   });
 }
